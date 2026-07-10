@@ -1,0 +1,17 @@
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Service.Contracts.deps.json
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Service.Contracts.dll
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Service.Contracts.pdb
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Entities.dll
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Shared.dll
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Entities.pdb
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\bin\Release\net9.0\Shared.pdb
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.csproj.AssemblyReference.cache
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.AssemblyInfoInputs.cache
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.AssemblyInfo.cs
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.csproj.CoreCompileInputs.cache
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service..DEC3DE55.Up2Date
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.dll
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\refint\Service.Contracts.dll
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\Service.Contracts.pdb
+D:\Visual Studio\ASP\CompanyEmployees\Service.Contracts\obj\Release\net9.0\ref\Service.Contracts.dll
