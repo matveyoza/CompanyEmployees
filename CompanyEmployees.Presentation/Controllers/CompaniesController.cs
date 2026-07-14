@@ -23,7 +23,7 @@ namespace CompanyEmployees.Presentation.Controllers
         /// </summary>
         /// <returns>The companies list</returns>
         [HttpGet(Name = "GetCompanies")]
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetCompanies()
         {
             var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);

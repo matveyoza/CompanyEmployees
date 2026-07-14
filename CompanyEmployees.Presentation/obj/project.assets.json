@@ -4253,6 +4253,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "Entities >= 1.0.0",
       "Marvin.Cache.Headers >= 7.2.0",
       "Microsoft.AspNetCore.JsonPatch >= 10.0.8",
       "Microsoft.AspNetCore.Mvc.Core >= 2.3.10",
@@ -4294,6 +4295,9 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
+            "D:\\Visual Studio\\ASP\\CompanyEmployees\\Entities\\Entities.csproj": {
+              "projectPath": "D:\\Visual Studio\\ASP\\CompanyEmployees\\Entities\\Entities.csproj"
+            },
             "D:\\Visual Studio\\ASP\\CompanyEmployees\\Service.Contracts\\Service.Contracts.csproj": {
               "projectPath": "D:\\Visual Studio\\ASP\\CompanyEmployees\\Service.Contracts\\Service.Contracts.csproj"
             }

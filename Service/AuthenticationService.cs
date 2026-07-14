@@ -4,7 +4,6 @@ using Entities.ConfigurationModels;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
@@ -13,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Entities.Common;
 
 namespace Service
 {
@@ -34,16 +34,25 @@ namespace Service
             _jwtConfiguration = _configuration.Value;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
+        public async Task<Result> RegisterUser(UserForRegistrationDto userForRegistration)
         {
             var user = _mapper.Map<User>(userForRegistration);
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
 
             if (result.Succeeded)
+            {
                 await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+                return Result.Success();
+            }
 
-            return result;
+            var errors = new List<string>();
+            foreach (var error in result.Errors)
+            {
+                errors.Add(error.Description);
+            }
+
+            return Result.Failure(errors);
         }
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)

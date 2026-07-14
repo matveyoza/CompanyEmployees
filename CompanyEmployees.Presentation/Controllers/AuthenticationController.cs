@@ -19,13 +19,9 @@ namespace CompanyEmployees.Presentation.Controllers
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
             var result = await _service.AuthenticationService.RegisterUser(userForRegistration);
-            if (!result.Succeeded)
+            if (!result.IsSuccess)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-                return BadRequest(ModelState);
+                return BadRequest(result.Errors);
             }
 
             return StatusCode(201);

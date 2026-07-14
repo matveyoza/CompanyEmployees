@@ -67,7 +67,8 @@ app.ConfigureExceptionHandler(logger);
 if (app.Environment.IsProduction())
     app.UseHsts();
 
-app.UseSwagger(); app.UseSwaggerUI(s =>
+app.UseSwagger();
+app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Code Maze API v1");
     s.SwaggerEndpoint("/swagger/v2/swagger.json", "Code Maze API v2");
