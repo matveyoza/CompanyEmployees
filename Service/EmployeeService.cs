@@ -6,11 +6,12 @@ using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
+using System.ComponentModel.Design;
 using System.Dynamic;
 
 namespace Service
 {
-    internal sealed class EmployeeService : IEmployeeService
+    public sealed class EmployeeService : IEmployeeService
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
@@ -102,9 +103,10 @@ namespace Service
 
             return (employeeToPatch, employeeDb);
         }
-        public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)
+        public async Task SaveChangesForPatchAsync(Guid companyId, Guid id, EmployeeForUpdateDto employeeToPatch)
         {
-            _mapper.Map(employeeToPatch, employeeEntity);
+            var employeeDb = await GetEmployeeForCompanyAndCheckIfItExists(companyId, id, trackChanges: true);
+            _mapper.Map(employeeToPatch, employeeDb);
             await _repository.SaveAsync();
         }
 

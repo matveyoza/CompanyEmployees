@@ -15,8 +15,8 @@ namespace CompanyEmployees.Presentation.Controllers
     //[ResponseCache(CacheProfileName = "120SecondsDuration")]
     public class CompaniesController : ControllerBase
     {
-        private readonly IServiceManager _service;
-        public CompaniesController(IServiceManager service) => _service = service;
+        private readonly ICompanyService _comService;
+        public CompaniesController(ICompanyService comService) => _comService = comService;
 
         /// <summary>
         /// Gets the list of all companies
@@ -26,7 +26,7 @@ namespace CompanyEmployees.Presentation.Controllers
         //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetCompanies()
         {
-            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
+            var companies = await _comService.GetAllCompaniesAsync(trackChanges: false);
 
             return Ok(companies);
         }
@@ -37,7 +37,7 @@ namespace CompanyEmployees.Presentation.Controllers
         //[ResponseCache(Duration = 60)]
         public async Task<IActionResult> GetCompany(Guid id)
         {
-            var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false);
+            var company = await _comService.GetCompanyAsync(id, trackChanges: false);
             return Ok(company);
         }
 
@@ -50,19 +50,10 @@ namespace CompanyEmployees.Presentation.Controllers
         /// <response code="400">If the item is null</response>
         /// <response code="422">If the model is invalid</response>
         [HttpPost(Name = "CreateCompany")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
         {
-            if (company is null)
-                return BadRequest("CompanyForCreationDto object is null");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
-            var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
+            var createdCompany = await _comService.CreateCompanyAsync(company);
             return CreatedAtRoute("CompanyById", new { id = createdCompany.Id }, createdCompany);
         }
 
@@ -70,7 +61,7 @@ namespace CompanyEmployees.Presentation.Controllers
         public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType =
             typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
-            var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false);
+            var companies = await _comService.GetByIdsAsync(ids, trackChanges: false);
 
             return Ok(companies);
         }
@@ -81,7 +72,7 @@ namespace CompanyEmployees.Presentation.Controllers
         IEnumerable<CompanyForCreationDto> companyCollection)
         {
             var result =
-                await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
+                await _comService.CreateCompanyCollectionAsync(companyCollection);
 
             return CreatedAtRoute("CompanyCollection", new { result.ids },
                 result.companies);
@@ -90,21 +81,16 @@ namespace CompanyEmployees.Presentation.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCompany(Guid id)
         {
-            await _service.CompanyService.DeleteCompanyAsync(id, trackChanges : false);
+            await _comService.DeleteCompanyAsync(id, trackChanges : false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
         {
-            if (company is null)
-                return BadRequest("CompanyForUpdateDto object is null");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
-            await _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true);
+            await _comService.UpdateCompanyAsync(id, company, trackChanges: true);
 
             return NoContent();
         }

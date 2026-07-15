@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -8,24 +9,22 @@ namespace CompanyEmployees.Presentation.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IServiceManager _service;
+        private readonly IProductService _product;
 
-        public ProductsController(IServiceManager service) => _service = service;
+        public ProductsController(IProductService product) => _product = product;
 
         [HttpGet]
         public async Task<IActionResult> GetProductsForCompany(Guid companyId)
         {
-            var products = await _service.ProductService.GetProductsAsync(companyId, trackChanges: false);
+            var products = await _product.GetProductsAsync(companyId, trackChanges: false);
             return Ok(products);
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProductForCompany(Guid companyId, [FromBody] ProductForCreationDto product)
         {
-            if (product == null)
-                return BadRequest("ProductForCreationDto object is null");
-
-            var productToReturn = await _service.ProductService.CreateProductForCompanyAsync(companyId, product, trackChanges: false);
+            var productToReturn = await _product.CreateProductForCompanyAsync(companyId, product, trackChanges: false);
 
             return CreatedAtAction(nameof(GetProductsForCompany), new { companyId }, productToReturn);
         }

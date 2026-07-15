@@ -4,6 +4,7 @@ using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerService;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,12 @@ namespace CompanyEmployees.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services) =>
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration) =>
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                    builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
+                    builder.WithOrigins(configuration["AllowedOrigins"])
+                    .WithMethods("GET", "POST", "PUT", "DELETE")
                     .AllowAnyHeader()
                     .WithExposedHeaders("X-Pagination"));
             });
@@ -44,8 +45,14 @@ namespace CompanyEmployees.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-        public static void ConfigureServiceManager(this IServiceCollection services) =>
-            services.AddScoped<IServiceManager, ServiceManager>();
+        public static void ConfigureAuthenticationService(this IServiceCollection services) =>
+           services.AddScoped<Service.Contracts.IAuthenticationService, Service.AuthenticationService>();
+        public static void ConfigureCompanyService(this IServiceCollection services) =>
+          services.AddScoped<ICompanyService, CompanyService>();
+        public static void ConfigureEmployeeService(this IServiceCollection services) =>
+                  services.AddScoped<IEmployeeService, EmployeeService>();
+        public static void ConfigureProductService(this IServiceCollection services) =>
+          services.AddScoped<IProductService, ProductService>();
 
         public static void ConfigureSqlContext(this IServiceCollection services,
             IConfiguration configuration) =>

@@ -28,7 +28,7 @@ namespace CompanyEmployees.Presentation.ActionFilters
             }
 
             if (!context.ModelState.IsValid)
-                context.Result = new UnprocessableEntityObjectResult(context.ModelState);
+                context.Result = new BadRequestObjectResult(context.ModelState);
         }
 
         public void OnActionExecuted(ActionExecutedContext context) { }

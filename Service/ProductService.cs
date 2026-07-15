@@ -6,7 +6,7 @@ using Shared.DataTransferObjects;
 
 namespace Service
 {
-    internal sealed class ProductService : IProductService
+    public sealed class ProductService : IProductService
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;

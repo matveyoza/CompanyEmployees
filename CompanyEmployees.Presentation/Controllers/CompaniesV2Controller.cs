@@ -15,13 +15,13 @@ namespace CompanyEmployees.Presentation.Controllers
     [ApiExplorerSettings(GroupName = "v2")]
     public class CompaniesV2Controller : ControllerBase
     {
-        private readonly IServiceManager _service;
-        public CompaniesV2Controller(IServiceManager service) => _service = service;
+        private readonly ICompanyService _comService;
+        public CompaniesV2Controller(ICompanyService comService) => _comService = comService;
         
         [HttpGet]
         public async Task<IActionResult> GetCompanies()
         {
-            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
+            var companies = await _comService.GetAllCompaniesAsync(trackChanges: false);
 
             var companiesV2 = companies.Select(x => $"{x.Name} V2");
             

@@ -16,7 +16,7 @@ using Entities.Common;
 
 namespace Service
 {
-    internal sealed class AuthenticationService : IAuthenticationService
+    public sealed class AuthenticationService : IAuthenticationService
     {
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;

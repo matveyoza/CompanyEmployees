@@ -1,4 +1,5 @@
 ﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -11,14 +12,14 @@ namespace CompanyEmployees.Presentation.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IServiceManager _service;
-        public AuthenticationController(IServiceManager service) => _service = service;
+        private readonly Service.Contracts.IAuthenticationService _authentication;
+        public AuthenticationController(Service.Contracts.IAuthenticationService authentication) => _authentication = authentication;
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
-            var result = await _service.AuthenticationService.RegisterUser(userForRegistration);
+            var result = await _authentication.RegisterUser(userForRegistration);
             if (!result.IsSuccess)
             {
                 return BadRequest(result.Errors);
@@ -31,12 +32,12 @@ namespace CompanyEmployees.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
         {
-            if (!await _service.AuthenticationService.ValidateUser(user))
+            if (!await _authentication.ValidateUser(user))
                 return Unauthorized();
 
-            var tokenDto = await _service.AuthenticationService
+            var token = await _authentication
                 .CreateToken(populateExp: true);
-            return Ok(tokenDto);
+            return Ok(token);
         }
     }
 }
