@@ -1,11 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Repository
 {
@@ -32,5 +28,8 @@ namespace Repository
             .ToListAsync();
 
         public void DeleteCompany(Company company) => Delete(company);
+
+        public void CreateCompanyCollection(IEnumerable<Company> companies) =>
+            RepositoryContext.AddRange(companies);
     }
 }

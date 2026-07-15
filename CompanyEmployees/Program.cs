@@ -17,20 +17,15 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nl
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureCors(builder.Configuration);
-builder.Services.ConfigureIISIntegration();
 
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddJwtConfiguration(builder.Configuration);
 
-builder.Services.ConfigureLoggerService();
+builder.Services.ConfigureApplicationServices();
+builder.Services.ConfigureInfrastructureServices();
 builder.Services.ConfigureSqlContext(builder.Configuration);
-builder.Services.ConfigureRepositoryManager();
-builder.Services.ConfigureCompanyService();
-builder.Services.ConfigureEmployeeService();
-builder.Services.ConfigureProductService();
-builder.Services.ConfigureAuthenticationService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();

@@ -33,26 +33,21 @@ namespace CompanyEmployees.Extensions
                     .WithExposedHeaders("X-Pagination"));
             });
 
-        public static void ConfigureIISIntegration(this IServiceCollection services) =>
-            services.Configure<IISOptions>(options => 
-            {
-
-            });
-
-        public static void ConfigureLoggerService(this IServiceCollection services) =>
+        public static void ConfigureInfrastructureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddSingleton<ILoggerManager, LoggerManager>();
+        }
 
-        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-            services.AddScoped<IRepositoryManager, RepositoryManager>();
-
-        public static void ConfigureAuthenticationService(this IServiceCollection services) =>
-           services.AddScoped<Service.Contracts.IAuthenticationService, Service.AuthenticationService>();
-        public static void ConfigureCompanyService(this IServiceCollection services) =>
-          services.AddScoped<ICompanyService, CompanyService>();
-        public static void ConfigureEmployeeService(this IServiceCollection services) =>
-                  services.AddScoped<IEmployeeService, EmployeeService>();
-        public static void ConfigureProductService(this IServiceCollection services) =>
-          services.AddScoped<IProductService, ProductService>();
+        public static void ConfigureApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<Service.Contracts.IAuthenticationService, Service.AuthenticationService>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IProductService, ProductService>();
+        }
 
         public static void ConfigureSqlContext(this IServiceCollection services,
             IConfiguration configuration) =>

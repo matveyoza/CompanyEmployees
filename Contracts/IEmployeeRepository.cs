@@ -3,7 +3,7 @@ using Shared.RequestFeatures;
 
 namespace Contracts
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IRepositoryBase<Employee>
     {
         Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges);
         Task<Employee> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges);

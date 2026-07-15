@@ -8,38 +8,41 @@ namespace Service
 {
     public sealed class ProductService : IProductService
     {
-        private readonly IRepositoryManager _repository;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IProductRepository _productRepository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
 
-        public ProductService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public ProductService(ICompanyRepository companyRepository,
+            IProductRepository productRepository, ILoggerManager logger, IMapper mapper)
         {
-            _repository = repository;
+            _companyRepository = companyRepository;
+            _productRepository = productRepository;
             _logger = logger;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync(Guid companyId, bool trackChanges)
         {
-            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
+            var company = await _companyRepository.GetCompanyAsync(companyId, trackChanges);
             if (company == null)
                 throw new Exception($"Company with id: {companyId} dev status: not found");
 
-            var productsFromDb = await _repository.Product.GetProductsAsync(companyId, trackChanges);
+            var productsFromDb = await _productRepository.GetProductsAsync(companyId, trackChanges);
             return _mapper.Map<IEnumerable<ProductDto>>(productsFromDb);
         }
 
         public async Task<ProductDto> CreateProductForCompanyAsync(Guid companyId, ProductForCreationDto productForCreation, bool trackChanges)
         {
-            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges);
+            var company = await _companyRepository.GetCompanyAsync(companyId, trackChanges);
             if (company == null)
                 throw new Exception($"Company with id: {companyId} not found");
 
             var productEntity = _mapper.Map<Product>(productForCreation);
 
-            _repository.Product.CreateProductForCompany(companyId, productEntity);
+            _productRepository.CreateProductForCompany(companyId, productEntity);
 
-            await _repository.SaveAsync();
+            await _productRepository.SaveAsync();
 
             var productToReturn = _mapper.Map<ProductDto>(productEntity);
 

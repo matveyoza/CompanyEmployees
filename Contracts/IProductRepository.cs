@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contracts
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepositoryBase<Product>
     {
         Task<IEnumerable<Product>> GetProductsAsync(Guid companyId,bool trackChanges);
         void CreateProductForCompany(Guid companyId, Product product);
